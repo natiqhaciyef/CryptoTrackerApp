@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">CryptoTrackerApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="price_change">Price change :</string>
+    <string name="total_volume">Total volume :</string>
+    <string name="current_price">Current price :</string>
+    <string name="set_min_price">Set min price</string>
+    <string name="set_price">Set price</string>
+    <string name="confirm">Confirm</string>
+    <string name="set_max_price">Set max price</string>
+    <string name="check_history">Check history</string>
+    <string name="previous_price_histories">Previous price histories</string>
+    <string name="empty_history">Empty history</string>
+</resources>

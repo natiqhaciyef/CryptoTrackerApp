@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteModule {
-    private val BASE_URL = "https://api.coingecko.com/"
+    private const val BASE_URL = "https://api.coingecko.com/"
 
     @Provides
     @Singleton
@@ -24,8 +24,6 @@ object RemoteModule {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(NetworkService::class.java)
-
-
 
     @Provides
     @Singleton

@@ -1,28 +1,18 @@
 package com.natiqhaciyef.cryptotrackerapp.data.network.service
 
-import com.natiqhaciyef.cryptotrackerapp.data.models.CurrencyHistoryModel
-import com.natiqhaciyef.cryptotrackerapp.data.models.CurrencyModel
+import com.natiqhaciyef.cryptotrackerapp.data.models.CurrenciesList
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface NetworkService {
-
-//    vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en
-
-    @GET("api/v3/coins/markets")
-    suspend fun getCryptoCurrencies(
-        @Query("vs_currency") vs_currency: String = "usd",
-        @Query("order") order: String = "market_cap_desc",
-        @Query("per_page") per_page: String = "100",
-        @Query("page") page: String = "1",
-        @Query("sparkline") sparkline: String = "false",
-        @Query("locale") locale: String = "en",
-    ): List<CurrencyModel>?
-
-    @GET("api/v3/coins/{id}/history")
-    suspend fun getCryptoCurrencyHistory(
-        @Path("id") id: String = "bitcoin",
-        @Query("date") date: String = "30-12-2022",
-    ): CurrencyHistoryModel?
+    @GET("api/v3/simple/price")
+    suspend fun getCryptoCurrencyById(
+        @Query("ids") id: String = "bitcoin,ripple,ethereum",
+        @Query("vs_currencies") date: String = "usd",
+        @Query("include_market_cap") includeMarketCap: Boolean = true,
+        @Query("include_24hr_vol") include24hrVol: Boolean = true,
+        @Query("include_24hr_change") include24hrChange: Boolean = true,
+        @Query("include_last_updated_at") includeLastUpdatedAt: Boolean = true,
+        @Query("precision") precision: Int = 1,
+    ): CurrenciesList?
 }

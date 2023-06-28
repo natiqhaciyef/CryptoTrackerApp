@@ -1,22 +1,41 @@
 package com.natiqhaciyef.cryptotrackerapp.domain.usecases.get
 
-import com.natiqhaciyef.cryptotrackerapp.data.models.CurrencyModel
-import com.natiqhaciyef.cryptotrackerapp.domain.repositories.NetworkRepository
+import androidx.lifecycle.MutableLiveData
 import com.natiqhaciyef.cryptotrackerapp.common.Resource
+import com.natiqhaciyef.cryptotrackerapp.data.models.CurrenciesList
+import com.natiqhaciyef.cryptotrackerapp.data.models.ExtendedCurrencyModel
+import com.natiqhaciyef.cryptotrackerapp.domain.repositories.NetworkRepository
 import javax.inject.Inject
 
 class GetAllCryptoCurrenciesUseCase @Inject constructor(
     private val networkRepository: NetworkRepository
 ) {
-    suspend operator fun invoke(): Resource<List<CurrencyModel>?> {
-        val data = networkRepository.getAllCryptoCurrencies()
 
-        return if (data == null) {
-            Resource.error("Something went wrong", null)
-        } else if (data.isNotEmpty()) {
-            Resource.success(data)
-        } else {
-            Resource.loading(data)
+    suspend operator fun invoke(): MutableLiveData<Resource<List<ExtendedCurrencyModel>>>{
+        val data = networkRepository.getAllCryptos()
+        val list = if (data != null){
+            listOf(
+                ExtendedCurrencyModel(
+                    "Bitcoin",
+                    "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+                    data.bitcoin
+                ),
+                ExtendedCurrencyModel(
+                    "Ethereum",
+                    "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+                    data.ethereum
+                ),
+
+                ExtendedCurrencyModel(
+                    "Ripple",
+                    "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1605778731",
+                    data.ripple
+                )
+            )
+        }else{
+            mutableListOf()
         }
+
+        return MutableLiveData(Resource.success(list))
     }
 }

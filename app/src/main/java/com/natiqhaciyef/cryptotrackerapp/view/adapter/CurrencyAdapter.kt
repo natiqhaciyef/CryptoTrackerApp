@@ -33,11 +33,21 @@ class CurrencyAdapter(val context: Context, val list: List<ExtendedCurrencyModel
         Glide.with(context).load(exCurrencyModel.image).into(view.currencyImageView)
         view.currencyTitleText.text = exCurrencyModel.title
         view.currencyCurrentPrice.text = "Price: $price"
-        view.currencyTotalVolumeText.text = "Total volume: $totalVolume"
+        view.currencyTotalVolumeText.text = "Total volume: ${numberConverter(totalVolume)}"
         view.currencyPriceChangeText.text = "Price change: $priceChange"
 
         holder.itemView.setOnClickListener {
             onItemClick.invoke(exCurrencyModel)
         }
+    }
+
+    private fun numberConverter(number: String) : String = if(number.length > 12){
+        "${"%.2f".format(number.toDouble()/1000000000)} B"
+    }else if(number.length in 10..12){
+        "${"%.2f".format(number.toDouble()/1000000)} M"
+    }else if(number.length in 7..9){
+        "${"%.2f".format(number.toDouble()/1000)} K"
+    }else{
+        number
     }
 }

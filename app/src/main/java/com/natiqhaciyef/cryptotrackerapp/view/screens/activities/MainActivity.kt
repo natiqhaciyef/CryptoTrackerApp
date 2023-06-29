@@ -67,14 +67,14 @@ class MainActivity : AppCompatActivity() {
         if (maxPrice < currency.currencyModel.usd){
             NotificationWork.activateWorkManager(
                 this,
-                "Max price alert",
+                title,
                 "$title's max price rose from your limit. Please check app and change limitation."
             )
             setPricesViewModel.deletePrice(histories.filter { it.maxPrice == maxPrice }[0])
         } else if (minPrice > currency.currencyModel.usd){
             NotificationWork.activateWorkManager(
                 this,
-                "Min price alert",
+                title,
                 "$title's min price down from your limit. Please check app and change limitation."
             )
             setPricesViewModel.deletePrice(histories.filter { it.minPrice == minPrice }[0])

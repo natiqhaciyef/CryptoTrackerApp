@@ -15,7 +15,7 @@ object NotificationWork{
         .setRequiredNetworkType(NetworkType.CONNECTED)
         .build()
 
-    private val request = OneTimeWorkRequestBuilder<NotificationWorker>()
+    private val request = PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.MINUTES)
         .setConstraints(constraints)
         .build()
 

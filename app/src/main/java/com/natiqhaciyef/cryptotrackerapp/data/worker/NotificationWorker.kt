@@ -16,10 +16,14 @@ class NotificationWorker @Inject constructor(
     }
 
     override suspend fun doWork(): Result {
-        if (title.isNotEmpty() && description.isNotEmpty())
-            NotificationSender.sendNotification(context, title, description)
-        else
-            NotificationSender.sendNotification(context, "Price alert", "Enter app and check currencies' price limitation")
+//        if (title.isNotEmpty() && description.isNotEmpty())
+//            NotificationSender.sendNotification(context, title, description)
+//        else
+        NotificationSender.sendNotification(
+            context,
+            "Price alert $title",
+            "Enter app and check currencies' price limitation"
+        )
         return Result.success()
     }
 }

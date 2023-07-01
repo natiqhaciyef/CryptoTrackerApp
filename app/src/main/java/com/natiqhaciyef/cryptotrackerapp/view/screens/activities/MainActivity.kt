@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
                 "$title's max price rose from your limit. Please check app and change limitation."
             )
             setPricesViewModel.deletePrice(histories.filter { it.maxPrice == maxPrice }[0])
+            closeService()
         } else if (minPrice > currency.currencyModel.usd){
             NotificationWork.activateWorkManager(
                 this,
@@ -78,7 +79,15 @@ class MainActivity : AppCompatActivity() {
                 "$title's min price down from your limit. Please check app and change limitation."
             )
             setPricesViewModel.deletePrice(histories.filter { it.minPrice == minPrice }[0])
+            closeService()
         }
 
+    }
+
+    private fun closeService(){
+        Intent(this, NotificationService::class.java).also {
+            stopService(it)
+            observeLiveData()
+        }
     }
 }

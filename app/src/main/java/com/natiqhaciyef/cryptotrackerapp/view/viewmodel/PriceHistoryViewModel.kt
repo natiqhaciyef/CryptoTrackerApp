@@ -2,18 +2,18 @@ package com.natiqhaciyef.cryptotrackerapp.view.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.natiqhaciyef.cryptotrackerapp.common.Resource
 import com.natiqhaciyef.cryptotrackerapp.common.Status
 import com.natiqhaciyef.cryptotrackerapp.data.models.PriceModel
-import com.natiqhaciyef.cryptotrackerapp.domain.usecases.get.GetAllPreviousHistoriesFilteredByCurrencyIdUseCase
-import com.natiqhaciyef.cryptotrackerapp.domain.usecases.get.GetAllPreviousHistoriesUseCase
+import com.natiqhaciyef.cryptotrackerapp.domain.repositories.PriceHistoryInterface
+import com.natiqhaciyef.cryptotrackerapp.domain.repositories.PriceHistoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PreviousHistoryViewModel @Inject constructor(
-    private val getAllPreviousHistories: GetAllPreviousHistoriesUseCase,
-    private val getAllPreviousHistoriesFilteredByCurrencyIdUseCase: GetAllPreviousHistoriesFilteredByCurrencyIdUseCase
+class PriceHistoryViewModel @Inject constructor(
+    private val repo: PriceHistoryInterface,
 ) : BaseViewModel() {
     private val _previousHistoriesLiveData = MutableLiveData<List<PriceModel>>()
     val previousHistoriesLiveData get() = _previousHistoriesLiveData
@@ -22,7 +22,7 @@ class PreviousHistoryViewModel @Inject constructor(
     val previousHistoriesFilteredLiveData get() = _previousHistoriesFilteredLiveData
 
     val isLoadingPreviousHistories = MutableLiveData<Boolean>(false)
-    val errorMessagePreviousHistories = MutableLiveData<String>()
+    val errorMessagePreviousHistories = MutableLiveData<Resource<List<PriceModel>>>()
 
     init {
         getAllPreviousHistories()
@@ -31,18 +31,19 @@ class PreviousHistoryViewModel @Inject constructor(
     private fun getAllPreviousHistories() {
         isLoadingPreviousHistories.value = true
         viewModelScope.launch {
-            val result = getAllPreviousHistories.invoke()
+            val result = repo.getAllPreviousHistories()
 
             when (result.status) {
                 Status.SUCCESS -> {
                     if (result.data != null) {
                         _previousHistoriesLiveData.value = result.data!!
                         isLoadingPreviousHistories.value = result.data.isEmpty()
+                        errorMessagePreviousHistories.value = Resource.success(result.data)
                     }
                 }
 
                 Status.ERROR -> {
-                    errorMessagePreviousHistories.value = result.message!!
+                    errorMessagePreviousHistories.value = Resource.error(result.message!!, null)
                     isLoadingPreviousHistories.value = false
                 }
 
@@ -57,25 +58,30 @@ class PreviousHistoryViewModel @Inject constructor(
     fun getAllPreviousHistoriesFilteredByCurrencyId(currencyId: String) {
         isLoadingPreviousHistories.value = true
         viewModelScope.launch {
-            val result = getAllPreviousHistoriesFilteredByCurrencyIdUseCase.invoke(currencyId)
+            if (currencyId.isNotEmpty()) {
+                val result = repo.getAllPreviousHistoriesByCurrencyId(currencyId)
 
-            when (result.status) {
-                Status.SUCCESS -> {
-                    if (result.data != null) {
-                        _previousHistoriesFilteredLiveData.value = result.data!!
-                        isLoadingPreviousHistories.value = result.data.isEmpty()
+                when (result.status) {
+                    Status.SUCCESS -> {
+                        if (result.data != null) {
+                            _previousHistoriesFilteredLiveData.value = result.data!!
+                            isLoadingPreviousHistories.value = result.data.isEmpty()
+                            errorMessagePreviousHistories.postValue(Resource.success(result.data))
+                        }
+                    }
+
+                    Status.ERROR -> {
+                        errorMessagePreviousHistories.postValue(Resource.error(result.message!!, null))
+                        isLoadingPreviousHistories.value = false
+                        println(result.message)
+                    }
+
+                    Status.LOADING -> {
+                        isLoadingPreviousHistories.value = true
                     }
                 }
-
-                Status.ERROR -> {
-                    errorMessagePreviousHistories.value = result.message!!
-                    isLoadingPreviousHistories.value = false
-                    println(result.message)
-                }
-
-                Status.LOADING -> {
-                    isLoadingPreviousHistories.value = true
-                }
+            }else{
+                errorMessagePreviousHistories.postValue(Resource.error("Empty currency id !", null))
             }
         }
     }

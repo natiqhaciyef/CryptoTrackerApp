@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.natiqhaciyef.cryptotrackerapp.data.local.database.dao.PreviousHistoryDao
 import com.natiqhaciyef.cryptotrackerapp.data.local.database.database.AppDatabase
 import com.natiqhaciyef.cryptotrackerapp.data.local.source.PriceHistoryDataSource
+import com.natiqhaciyef.cryptotrackerapp.domain.repositories.PriceHistoryInterface
 import com.natiqhaciyef.cryptotrackerapp.domain.repositories.PriceHistoryRepository
 import dagger.Module
 import dagger.Provides
@@ -33,6 +34,5 @@ object LocalModule {
 
     @Provides
     @Singleton
-    fun providePreviousHistoryRepository(ds: PriceHistoryDataSource) = PriceHistoryRepository(ds)
-
+    fun providePreviousHistoryRepository(ds: PriceHistoryDataSource) = PriceHistoryRepository(ds) as PriceHistoryInterface
 }

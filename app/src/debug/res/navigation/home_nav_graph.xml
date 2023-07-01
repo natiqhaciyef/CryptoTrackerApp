@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.natiqhaciyef.cryptotrackerapp.view.screens.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_alertDialogSetPrice"
+            app:destination="@id/alertDialogSetPrice" />
+        <action
+            android:id="@+id/action_homeFragment_to_previousHistoryFragment"
+            app:destination="@id/previousHistoryFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/alertDialogSetPrice"
+        android:name="com.natiqhaciyef.cryptotrackerapp.view.screens.fragments.AlertDialogSetPrice"
+        android:label="AlertDialogSetPrice" >
+        <action
+            android:id="@+id/action_alertDialogSetPrice_to_previousHistoryFragment"
+            app:destination="@id/previousHistoryFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/previousHistoryFragment"
+        android:name="com.natiqhaciyef.cryptotrackerapp.view.screens.fragments.PreviousHistoryFragment"
+        android:label="fragment_previous_history"
+        tools:layout="@layout/fragment_previous_history" >
+        <argument
+            android:name="currencyId"
+            app:argType="string" />
+    </fragment>
+</navigation>

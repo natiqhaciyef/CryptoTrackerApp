@@ -11,7 +11,7 @@ import com.natiqhaciyef.cryptotrackerapp.data.worker.NotificationSender
 import com.natiqhaciyef.cryptotrackerapp.databinding.ActivityMainBinding
 import com.natiqhaciyef.cryptotrackerapp.domain.work.NotificationWork
 import com.natiqhaciyef.cryptotrackerapp.view.viewmodel.HomeViewModel
-import com.natiqhaciyef.cryptotrackerapp.view.viewmodel.PreviousHistoryViewModel
+import com.natiqhaciyef.cryptotrackerapp.view.viewmodel.PriceHistoryViewModel
 import com.natiqhaciyef.cryptotrackerapp.view.viewmodel.SetPriceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,14 +19,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var previousViewModel: PreviousHistoryViewModel
+    private lateinit var previousViewModel: PriceHistoryViewModel
     private lateinit var setPricesViewModel: SetPriceViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        previousViewModel = ViewModelProvider(this)[PreviousHistoryViewModel::class.java]
+        previousViewModel = ViewModelProvider(this)[PriceHistoryViewModel::class.java]
         setPricesViewModel = ViewModelProvider(this)[SetPriceViewModel::class.java]
 
         Intent(this, NotificationService::class.java).also {

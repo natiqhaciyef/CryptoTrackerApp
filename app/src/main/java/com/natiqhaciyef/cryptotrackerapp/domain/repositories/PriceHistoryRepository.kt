@@ -1,23 +1,33 @@
 package com.natiqhaciyef.cryptotrackerapp.domain.repositories
 
+import com.natiqhaciyef.cryptotrackerapp.common.Resource
 import com.natiqhaciyef.cryptotrackerapp.data.local.source.PriceHistoryDataSource
 import com.natiqhaciyef.cryptotrackerapp.data.models.PriceModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class PriceHistoryRepository(private val ds: PriceHistoryDataSource) {
+class PriceHistoryRepository(private val ds: PriceHistoryDataSource) : PriceHistoryInterface {
 
-    suspend fun getAllPreviousHistories(): List<PriceModel>? =
-        ds.getAllPreviousHistories()
+    override suspend fun getAllPreviousHistories(): Resource<List<PriceModel>?> =
+        if (ds.getAllPreviousHistories() != null && ds.getAllPreviousHistories()!!.isNotEmpty()) {
+            Resource.success(ds.getAllPreviousHistories())
+        } else {
+            Resource.error("Something went wrong", null)
+        }
 
-    suspend fun getAllPreviousHistoriesByCurrencyId(currencyId: String): List<PriceModel>? =
-        ds.getAllPreviousHistoriesByCurrencyId(currencyId)
 
-    suspend fun insertPreviousHistory(previousHistoryModel: PriceModel) =
+    override suspend fun getAllPreviousHistoriesByCurrencyId(currencyId: String): Resource<List<PriceModel>?> =
+        if (ds.getAllPreviousHistories() != null && ds.getAllPreviousHistories()!!.isNotEmpty()) {
+            Resource.success(ds.getAllPreviousHistoriesByCurrencyId(currencyId))
+        } else {
+            Resource.error("Something went wrong", null)
+        }
+
+    override suspend fun insertPreviousHistory(previousHistoryModel: PriceModel) =
         ds.insertPreviousHistory(previousHistoryModel)
 
 
-    suspend fun deletePreviousHistory(previousHistoryModel: PriceModel) =
+    override suspend fun deletePreviousHistory(previousHistoryModel: PriceModel) =
         ds.deletePreviousHistory(previousHistoryModel)
 
 }

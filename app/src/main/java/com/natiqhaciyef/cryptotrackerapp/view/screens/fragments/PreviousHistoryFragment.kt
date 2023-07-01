@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.natiqhaciyef.cryptotrackerapp.R
 import com.natiqhaciyef.cryptotrackerapp.databinding.FragmentPreviousHistoryBinding
 import com.natiqhaciyef.cryptotrackerapp.view.adapter.PreviousHistoryAdapter
-import com.natiqhaciyef.cryptotrackerapp.view.viewmodel.PreviousHistoryViewModel
+import com.natiqhaciyef.cryptotrackerapp.view.viewmodel.PriceHistoryViewModel
 import com.natiqhaciyef.cryptotrackerapp.view.viewmodel.SetPriceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class PreviousHistoryFragment : Fragment() {
     private lateinit var binding: FragmentPreviousHistoryBinding
     private lateinit var adapter: PreviousHistoryAdapter
-    private val priceViewModel: PreviousHistoryViewModel by viewModels()
+    private val priceViewModel: PriceHistoryViewModel by viewModels()
     private val setPriceViewModel: SetPriceViewModel by viewModels()
 
     override fun onCreateView(

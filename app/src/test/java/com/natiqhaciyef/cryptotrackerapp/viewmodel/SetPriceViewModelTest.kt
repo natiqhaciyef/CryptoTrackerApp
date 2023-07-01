@@ -3,7 +3,7 @@ package com.natiqhaciyef.cryptotrackerapp.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.natiqhaciyef.artapptesting.util.MainCoroutineRule
-import com.natiqhaciyef.artapptesting.util.getOrAwaitValue
+import com.natiqhaciyef.cryptotrackerapp.util.getOrAwaitValue
 import com.natiqhaciyef.cryptotrackerapp.common.Status
 import com.natiqhaciyef.cryptotrackerapp.data.models.PriceModel
 import com.natiqhaciyef.cryptotrackerapp.repo.FakePriceHistoryRepository

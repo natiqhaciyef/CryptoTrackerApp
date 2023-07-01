@@ -1,4 +1,4 @@
-package com.natiqhaciyef.artapptesting.util
+package com.natiqhaciyef.cryptotrackerapp.util
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
